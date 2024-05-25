@@ -2,6 +2,7 @@ package ncurses
 
 import (
 	"fmt"
+	"math"
 	"strings"
 	"time"
 
@@ -70,20 +71,20 @@ func (ms *MenuScreen_Ncurses) Render(frame *menuify.MenuFrame) {
 	ms.CachedFrame = frame
 	ms.Clear()
 	if frame != nil && frame.Empty() {
-		headLines := padStr(strings.Split(frame.Header, "\n"), ms.Engine.LinesH - ms.paddingW)
+		headLines := padStr(strings.Split(frame.Header, "\n"), ms.Menu.Engine.LinesH - ms.paddingW)
 		head := strings.Join(headLines, "\n")
-		menuLines := padStr(strings.Split(frame.Menu, "\n"), ms.Engine.LinesH - ms.paddingW)
+		menuLines := padStr(strings.Split(frame.Menu, "\n"), ms.Menu.Engine.LinesH - ms.paddingW)
 		menu := strings.Join(menuLines, "\n")
-		footLines := padStr(strings.Split(frame.Footer, "\n"), ms.Engine.LinesH - ms.paddingW)
+		footLines := padStr(strings.Split(frame.Footer, "\n"), ms.Menu.Engine.LinesH - ms.paddingW)
 		foot := strings.Join(footLines, "\n")
 
 		text := fmt.Sprintf("%s\n\n%s", head, menu) //Inserted 2 new lines
 		height := len(headLines) + len(menuLines) + ms.paddingH + 2
 
-		if height < ms.Engine.LinesV {
-			if height + len(footLines) + 2 < ms.Engine.LinesV {
+		if height < ms.Menu.Engine.LinesV {
+			if height + len(footLines) + 2 < ms.Menu.Engine.LinesV {
 				height += len(footLines) + 2
-				pad := int(math.Floor(float64(menuEngine.LinesV - height))) + 1
+				pad := int(math.Floor(float64(ms.Menu.Engine.LinesV - height))) + 1
 				for i := 0; i < pad; i++ {
 					text += "\n"
 				}
@@ -105,12 +106,12 @@ func (ms *MenuScreen_Ncurses) Clear() {
 }
 
 func (ms *MenuScreen_Ncurses) GetWidth() int {
-	_, width := terminal.GetMaxYX()
+	_, width := ms.Terminal.GetMaxYX()
 	return width
 }
 
 func (ms *MenuScreen_Ncurses) GetHeight() int {
-	height, _ := terminal.GetMaxYX()
+	height, _ := ms.Terminal.GetMaxYX()
 	return height
 }
 
