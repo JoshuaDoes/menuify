@@ -62,7 +62,7 @@ func NewMenuScreenNcurses(m *Menu) *MenuScreen_Ncurses {
 }
 
 func (ms *MenuScreen_Ncurses) Render(frame *menuify.MenuFrame) {
-	ms.Terminal.Erase()
+	ms.Clear()
 	if frame != nil && frame.Empty() {
 		headLines := padStr(strings.Split(frame.Header, "\n"), ms.Engine.LinesH - ms.paddingW)
 		head := strings.Join(headLines, "\n")
@@ -88,6 +88,10 @@ func (ms *MenuScreen_Ncurses) Render(frame *menuify.MenuFrame) {
 		ms.Terminal.Printf(text)
 	}
 	ms.Terminal.Refresh()
+}
+
+func (ms *MenuScreen_Ncurses) Clear() {
+	ms.Terminal.Erase()
 }
 
 func (ms *MenuScreen_Ncurses) GetWidth() int {

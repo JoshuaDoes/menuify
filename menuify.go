@@ -23,11 +23,12 @@ type Menu struct {
 	Keysrv []*KeycodeListener
 }
 
-func NewMenu(renderer func(*MenuRender)) *Menu {
-	if renderer == nil {
-		return nil
-	}
-	return &Menu{Engine: NewMenuEngine(renderer), Keysrv: make([]*KeycodeListener, 0)}
+func NewMenu() *Menu {
+	return &Menu{Engine: NewMenuEngine(), Keysrv: make([]*KeycodeListener, 0)}
+}
+
+func (m *Menu) SetScreen(screen func(*MenuScreen)) {
+	m.Engine.SetScreen(screen)
 }
 
 func (m *Menu) Load(configPath string) error {
@@ -59,13 +60,4 @@ func (m *Menu) Load(configPath string) error {
 	//If necessary, unload all keybinds first in case of hot reloading config
 
 	return nil
-}
-
-func main() {
-	menuEngine.Home()
-	bindKeys()
-
-	sc := make(chan os.Signal, 1)
-	signal.Notify(sc, syscall.SIGINT)
-	<-sc
 }

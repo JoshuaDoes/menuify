@@ -20,7 +20,7 @@ type MenuKeycodeBinding struct {
 	OnRelease bool   `json:"onRelease"`
 }
 
-func BindKeys() {
+func (me *MenuEngine) BindKeys() {
 	for keyboard, bindings := range keyCalibration {
 		kl, err := NewKeycodeListener(keyboard)
 		if err != nil {
@@ -30,11 +30,11 @@ func BindKeys() {
 			var action func()
 			switch binding.Action {
 			case "prevItem":
-				action = menuEngine.PrevItem
+				action = me.PrevItem
 			case "nextItem":
-				action = menuEngine.NextItem
+				action = me.NextItem
 			case "selectItem":
-				action = menuEngine.Action
+				action = me.Action
 			default:
 				panic("unknown action: " + binding.Action)
 			}
@@ -77,7 +77,11 @@ func (kc *KeyCalibration) Input(keyboard string, keycode uint16, onRelease bool)
 	kc.Action = ""
 }
 
-func Calibrate() error {
+func Calibrate(keyCalibrationFile string) error {
+	if keyCalibrationFile == "" {
+		keyCalibrationFile = "./keyCalibration.json"
+	}
+
 	//Generate a key calibration file if one doesn't exist yet
 	calibrator := &KeyCalibration{KLs: make([]*KeycodeListener, 0)}
 

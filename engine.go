@@ -46,13 +46,11 @@ type MenuEngine struct {
 	Hooks       map[string]func(me *MenuEngine) //run a hook after changing to a menu
 
 	//Rendering control
-	Render func(*MenuRender)
-	LinesH int
-	LinesV int
+	Screen func(*MenuScreen)
 }
 
 // NewMenuEngine returns a menu engine ready to be used
-func NewMenuEngine(renderer func(*MenuRender)) *MenuEngine {
+func NewMenuEngine() *MenuEngine {
 	env := make(map[string]string)
 	env["WORKINGDIR"] = "."
 	env["WD"] = "."
@@ -62,12 +60,15 @@ func NewMenuEngine(renderer func(*MenuRender)) *MenuEngine {
 		MenuHistory: make([]string, 0),
 		ItemHistory: make([]int, 0),
 		Environment: env,
-		Render:      renderer,
 		LinesH:      40,
 		LinesV:      40,
 		Hooks:       make(map[string]func(me *MenuEngine)),
 	}
 	return me
+}
+
+func (me *MenuEngine) SetScreen(screen func(*MenuScreen)) {
+	me.Screen = screen
 }
 
 func (me *MenuEngine) Hook(id string, hook func(me *MenuEngine)) {
@@ -543,7 +544,7 @@ func (me *MenuEngine) Redraw() {
 	me.render()
 }
 func (me *MenuEngine) render() {
-	if me.Render != nil {
-		me.Render(me.GetRender())
+	if me.Screen != nil {
+		me.Screen.Render(me.GetRender())
 	}
 }
