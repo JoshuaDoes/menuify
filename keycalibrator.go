@@ -24,7 +24,7 @@ func (me *MenuEngine) BindKeys() {
 	for keyboard, bindings := range keyCalibration {
 		kl, err := NewKeycodeListener(keyboard)
 		if err != nil {
-			panic(fmt.Smenuify.ScreenPrintf(me.Screen, "error listening to keyboard %s: %v", keyboard, err))
+			panic(fmt.Sprintf("error listening to keyboard %s: %v", keyboard, err))
 		}
 		for _, binding := range bindings {
 			var action func()
