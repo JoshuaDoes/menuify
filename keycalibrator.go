@@ -77,7 +77,7 @@ func (kc *KeyCalibration) Input(keyboard string, keycode uint16, onRelease bool)
 	kc.Action = ""
 }
 
-func Calibrate(keyCalibrationFile string) error {
+func (me *MenuEngine) Calibrate(keyCalibrationFile string) error {
 	if keyCalibrationFile == "" {
 		keyCalibrationFile = "./keyCalibration.json"
 	}
@@ -123,7 +123,7 @@ func Calibrate(keyCalibrationFile string) error {
 					continue
 				}
 
-				clear()
+				me.Screen.Clear()
 				println("Press any key within\n5 seconds to recalibrate.\n")
 				calibrator.Ready = true
 				calibrator.Action = "cancel"
@@ -145,7 +145,7 @@ func Calibrate(keyCalibrationFile string) error {
 		case 1:
 			calibrator.Ready = false
 			keyCalibration = make(map[string][]*MenuKeycodeBinding)
-			clear()
+			me.Screen.Clear()
 			println("Welcome to the calibrator!\n")
 			println("Press any key to cancel.\n")
 			time.Sleep(time.Second * 2)
@@ -161,7 +161,7 @@ func Calibrate(keyCalibrationFile string) error {
 			time.Sleep(time.Second * 3)
 			if calibrator.Cancel { return ERR_CANCELLED }
 		case 2:
-			clear()
+			me.Screen.Clear()
 			calibrator.Ready = true
 			calibrator.Action = "nextItem"
 			printf("\n")
@@ -184,7 +184,7 @@ func Calibrate(keyCalibrationFile string) error {
 			for calibrator.Action != "" {
 			}
 		case 5:
-			clear()
+			me.Screen.Clear()
 			println("Saving results...\n")
 			keyboards, err := json.Marshal(keyCalibration, true)
 			if err != nil {
