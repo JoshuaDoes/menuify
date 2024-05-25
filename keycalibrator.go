@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	ERR_CANCELLED = fmt.Errorf("calibrator: cancelled")
+	keyCalibration map[string][]*MenuKeycodeBinding = make(map[string][]*MenuKeycodeBinding)
 )
 
 type MenuKeycodeBinding struct {
@@ -20,7 +20,7 @@ type MenuKeycodeBinding struct {
 	OnRelease bool   `json:"onRelease"`
 }
 
-func bindKeys() {
+func BindKeys() {
 	for keyboard, bindings := range keyCalibration {
 		kl, err := NewKeycodeListener(keyboard)
 		if err != nil {
@@ -77,7 +77,7 @@ func (kc *KeyCalibration) Input(keyboard string, keycode uint16, onRelease bool)
 	kc.Action = ""
 }
 
-func calibrate() error {
+func Calibrate() error {
 	//Generate a key calibration file if one doesn't exist yet
 	calibrator := &KeyCalibration{KLs: make([]*KeycodeListener, 0)}
 
