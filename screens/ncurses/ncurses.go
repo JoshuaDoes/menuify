@@ -87,9 +87,12 @@ func (ms *MenuScreen_Ncurses) Render(frame *menuify.MenuFrame) {
 				pad := int(math.Floor(float64(ms.Menu.Engine.LinesV - height))) + 1
 				halfPad := int(pad/2)
 				for i := 0; i < halfPad; i++ {
-					text = "\n" + text + "\n"
+					text += "\n"
 				}
 				text += foot
+				for i := 0; i < halfPad; i++ {
+					text += "\n"
+				}
 			}
 		}
 
