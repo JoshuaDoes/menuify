@@ -46,7 +46,7 @@ type MenuEngine struct {
 	Hooks       map[string]func(me *MenuEngine) //run a hook after changing to a menu
 
 	//Rendering control
-	Screen func(*MenuScreen)
+	Screen *MenuScreen
 }
 
 // NewMenuEngine returns a menu engine ready to be used
@@ -60,8 +60,6 @@ func NewMenuEngine() *MenuEngine {
 		MenuHistory: make([]string, 0),
 		ItemHistory: make([]int, 0),
 		Environment: env,
-		LinesH:      40,
-		LinesV:      40,
 		Hooks:       make(map[string]func(me *MenuEngine)),
 	}
 	return me
