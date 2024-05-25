@@ -28,6 +28,9 @@ func ScreenPrintf(ms MenuScreen, format string, args ...interface{}) {
 	}
 	line := fmt.Sprintf(format, args...)
 	frame := ms.GetFrame()
+	if frame == nil {
+		frame = &MenuFrame{}
+	}
 	frame.Menu += line
 	ms.Render(frame)
 }
