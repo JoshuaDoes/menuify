@@ -47,6 +47,7 @@ type MenuEngine struct {
 
 	//Rendering control
 	Screen MenuScreen
+	LinesV, LinesH int
 }
 
 // NewMenuEngine returns a menu engine ready to be used
@@ -61,6 +62,10 @@ func NewMenuEngine() *MenuEngine {
 		ItemHistory: make([]int, 0),
 		Environment: env,
 		Hooks:       make(map[string]func(me *MenuEngine)),
+
+		//Default to 80x40
+		LinesH: 80,
+		LinesV: 40,
 	}
 	return me
 }

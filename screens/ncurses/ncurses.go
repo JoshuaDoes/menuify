@@ -13,6 +13,7 @@ var (
 type MenuScreen_Ncurses struct {
 	Menu		*menuify.Menu
 	Terminal	*ncurses.Window
+	CachedFrame *menuify.MenuFrame
 
 	//Padding for centered rendering, total for the count rather than one side
 	paddingW int //i.e. use 6 if you want 3 lines of padding on both sides
@@ -62,6 +63,7 @@ func NewMenuScreenNcurses(m *Menu) *MenuScreen_Ncurses {
 }
 
 func (ms *MenuScreen_Ncurses) Render(frame *menuify.MenuFrame) {
+	ms.CachedFrame = frame
 	ms.Clear()
 	if frame != nil && frame.Empty() {
 		headLines := padStr(strings.Split(frame.Header, "\n"), ms.Engine.LinesH - ms.paddingW)
@@ -88,6 +90,10 @@ func (ms *MenuScreen_Ncurses) Render(frame *menuify.MenuFrame) {
 		ms.Terminal.Printf(text)
 	}
 	ms.Terminal.Refresh()
+}
+
+func (ms *MenuScreen_Ncurses) GetFrame() *menuify.MenuFrame {
+	return ms.CachedFrame
 }
 
 func (ms *MenuScreen_Ncurses) Clear() {
