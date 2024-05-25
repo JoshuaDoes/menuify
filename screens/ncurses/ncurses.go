@@ -1,6 +1,9 @@
 package ncurses
 
 import (
+	"fmt"
+	"time"
+
 	"github.com/JoshuaDoes/menuify"
 	"seehuhn.de/go/ncurses"
 )
@@ -20,7 +23,7 @@ type MenuScreen_Ncurses struct {
 	paddingH int
 }
 
-func NewMenuScreenNcurses(m *Menu) *MenuScreen_Ncurses {
+func NewMenuScreenNcurses(m *menuify.Menu) *MenuScreen_Ncurses {
 	if m == nil {
 		return nil
 	}
