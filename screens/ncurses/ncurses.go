@@ -2,6 +2,7 @@ package ncurses
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/JoshuaDoes/menuify"
@@ -50,11 +51,11 @@ func NewMenuScreenNcurses(m *menuify.Menu) *MenuScreen_Ncurses {
 
 	go menuify.Interval(time.Nanosecond * 16666, func() error {
 		if term := leased; term != nil {
-			height, width := term.GetMaxYX()
-			if height != term.Menu.LinesV || width != term.Menu.LinesH {
-				term.Menu.LinesV = height
-				term.Menu.LinesH = width
-				term.Menu.Redraw()
+			height, width := ms.Terminal.GetMaxYX()
+			if height != ms.Menu.LinesV || width != ms.Menu.LinesH {
+				ms.Menu.LinesV = height
+				ms.Menu.LinesH = width
+				ms.Menu.Redraw()
 			}
 			return nil
 		}
