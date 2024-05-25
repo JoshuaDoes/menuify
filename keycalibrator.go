@@ -124,7 +124,7 @@ func (me *MenuEngine) Calibrate(keyCalibrationFile string) error {
 				}
 
 				me.Screen.Clear()
-				menuify.ScreenPrintln(me.Screen, "Press any key within\n5 seconds to recalibrate.\n")
+				ScreenPrintln(me.Screen, "Press any key within\n5 seconds to recalibrate.\n")
 				calibrator.Ready = true
 				calibrator.Action = "cancel"
 				timeout := time.Now()
@@ -136,7 +136,7 @@ func (me *MenuEngine) Calibrate(keyCalibrationFile string) error {
 				}
 				if time.Now().Sub(timeout).Seconds() < 5 {
 					calibrator.Action = ""
-					menuify.ScreenPrintln(me.Screen, "Recalibration time!")
+					ScreenPrintln(me.Screen, "Recalibration time!")
 					time.Sleep(time.Second * 2)
 					continue
 				}
@@ -146,17 +146,17 @@ func (me *MenuEngine) Calibrate(keyCalibrationFile string) error {
 			calibrator.Ready = false
 			keyCalibration = make(map[string][]*MenuKeycodeBinding)
 			me.Screen.Clear()
-			menuify.ScreenPrintln(me.Screen, "Welcome to the calibrator!\n")
-			menuify.ScreenPrintln(me.Screen, "Press any key to cancel.\n")
+			ScreenPrintln(me.Screen, "Welcome to the calibrator!\n")
+			ScreenPrintln(me.Screen, "Press any key to cancel.\n")
 			time.Sleep(time.Second * 2)
 			if calibrator.Cancel { return ERR_CANCELLED }
-			menuify.ScreenPrintln(me.Screen, "Controllers and remotes\nare also supported.\n")
+			ScreenPrintln(me.Screen, "Controllers and remotes\nare also supported.\n")
 			time.Sleep(time.Second * 2)
 			if calibrator.Cancel { return ERR_CANCELLED }
-			menuify.ScreenPrintln(me.Screen, "This is a guided process.\n")
+			ScreenPrintln(me.Screen, "This is a guided process.\n")
 			time.Sleep(time.Second * 2)
 			if calibrator.Cancel { return ERR_CANCELLED }
-			menuify.ScreenPrintln(me.Screen, "Get ready!\n")
+			ScreenPrintln(me.Screen, "Get ready!\n")
 			if calibrator.Cancel { return ERR_CANCELLED }
 			time.Sleep(time.Second * 3)
 			if calibrator.Cancel { return ERR_CANCELLED }
@@ -164,28 +164,28 @@ func (me *MenuEngine) Calibrate(keyCalibrationFile string) error {
 			me.Screen.Clear()
 			calibrator.Ready = true
 			calibrator.Action = "nextItem"
-			menuify.ScreenPrintf(me.Screen, "\n")
-			menuify.ScreenPrintln(me.Screen, "Press any key to use to\nnavigate down in a menu.\n")
-			menuify.ScreenPrintln(me.Screen, "Recommended: volume down")
+			ScreenPrintf(me.Screen, "\n")
+			ScreenPrintln(me.Screen, "Press any key to use to\nnavigate down in a menu.\n")
+			ScreenPrintln(me.Screen, "Recommended: volume down")
 			for calibrator.Action != "" {
 			}
 		case 3:
 			calibrator.Action = "prevItem"
-			menuify.ScreenPrintf(me.Screen, "\n")
-			menuify.ScreenPrintln(me.Screen, "Press any key to use to\nnavigate up in a menu.\n")
-			menuify.ScreenPrintln(me.Screen, "Recommended: volume up")
+			ScreenPrintf(me.Screen, "\n")
+			ScreenPrintln(me.Screen, "Press any key to use to\nnavigate up in a menu.\n")
+			ScreenPrintln(me.Screen, "Recommended: volume up")
 			for calibrator.Action != "" {
 			}
 		case 4:
 			calibrator.Action = "selectItem"
-			menuify.ScreenPrintf(me.Screen, "\n")
-			menuify.ScreenPrintln(me.Screen, "Press any key to use to\nselect a menu item.\n")
-			menuify.ScreenPrintln(me.Screen, "Recommended: touch screen")
+			ScreenPrintf(me.Screen, "\n")
+			ScreenPrintln(me.Screen, "Press any key to use to\nselect a menu item.\n")
+			ScreenPrintln(me.Screen, "Recommended: touch screen")
 			for calibrator.Action != "" {
 			}
 		case 5:
 			me.Screen.Clear()
-			menuify.ScreenPrintln(me.Screen, "Saving results...\n")
+			ScreenPrintln(me.Screen, "Saving results...\n")
 			keyboards, err := json.Marshal(keyCalibration, true)
 			if err != nil {
 				return fmt.Errorf("error encoding calibration results: %v", err)
@@ -199,8 +199,8 @@ func (me *MenuEngine) Calibrate(keyCalibrationFile string) error {
 			if err != nil {
 				return fmt.Errorf("error writing calibration file: %v", err)
 			}
-			//menuify.ScreenPrintln(me.Screen, string(keyboards))
-			//menuify.ScreenPrintln(me.Screen, "Calibration complete!")
+			//ScreenPrintln(me.Screen, string(keyboards))
+			//ScreenPrintln(me.Screen, "Calibration complete!")
 			//time.Sleep(time.Second * 2)
 			//calibrator.Ready = false
 		}
