@@ -1,5 +1,9 @@
 package menuify
 
+import (
+	"fmt"
+)
+
 //MenuScreen is a wrapper for a screen manager, which could theoretically wrap multiple screens...
 type MenuScreen interface {
 	//Offloading for rendering the menu string, locks the menu until method returns
