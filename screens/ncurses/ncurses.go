@@ -46,7 +46,7 @@ func NewMenuScreenNcurses(m *menuify.Menu) *MenuScreen_Ncurses {
 		Menu: m,
 		Terminal: ncurses.Init(),
 		paddingW: 6,
-		paddingH: 6,
+		paddingH: 2,
 	}
 	leased = ms
 
@@ -85,8 +85,9 @@ func (ms *MenuScreen_Ncurses) Render(frame *menuify.MenuFrame) {
 			if height + len(footLines) + 2 < ms.Menu.Engine.LinesV {
 				height += len(footLines) + 2
 				pad := int(math.Floor(float64(ms.Menu.Engine.LinesV - height))) + 1
-				for i := 0; i < pad; i++ {
-					text += "\n"
+				halfPad := int(pad/2)
+				for i := 0; i < halfPad; i++ {
+					text = "\n" + text + "\n"
 				}
 				text += foot
 			}
