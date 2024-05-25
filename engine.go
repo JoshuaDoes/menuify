@@ -65,7 +65,7 @@ func NewMenuEngine() *MenuEngine {
 	return me
 }
 
-func (me *MenuEngine) SetScreen(screen func(*MenuScreen)) {
+func (me *MenuEngine) SetScreen(screen MenuScreen) {
 	me.Screen = screen
 }
 
