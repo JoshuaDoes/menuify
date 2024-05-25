@@ -3,17 +3,8 @@ package menuify
 import (
 	"fmt"
 	"io/ioutil"
-	"math"
-	"os"
-	"os/signal"
-	"path/filepath"
-	"strings"
-	"syscall"
-	"time"
 
-	flag "github.com/spf13/pflag"
 	"github.com/JoshuaDoes/json"
-	"seehuhn.de/go/ncurses"
 )
 
 type Menu struct {
@@ -27,7 +18,7 @@ func NewMenu() *Menu {
 	return &Menu{Engine: NewMenuEngine(), Keysrv: make([]*KeycodeListener, 0)}
 }
 
-func (m *Menu) SetScreen(screen func(*MenuScreen)) {
+func (m *Menu) SetScreen(screen MenuScreen) {
 	m.Engine.SetScreen(screen)
 }
 
