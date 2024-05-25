@@ -70,36 +70,39 @@ func NewMenuScreenNcurses(m *menuify.Menu) *MenuScreen_Ncurses {
 func (ms *MenuScreen_Ncurses) Render(frame *menuify.MenuFrame) {
 	ms.CachedFrame = frame
 	ms.Clear()
+
 	if frame != nil && !frame.Empty() {
-		headLines := padStr(strings.Split(frame.Header, "\n"), ms.Menu.Engine.LinesH - ms.paddingW)
-		head := strings.Join(headLines, "\n")
-		menuLines := padStr(strings.Split(frame.Menu, "\n"), ms.Menu.Engine.LinesH - ms.paddingW)
-		menu := strings.Join(menuLines, "\n")
-		footLines := padStr(strings.Split(frame.Footer, "\n"), ms.Menu.Engine.LinesH - ms.paddingW)
-		foot := strings.Join(footLines, "\n")
+		linesV := ms.Menu.Engine.LinesV
+		linesH := ms.Menu.Engine.LinesH
 
-		text := fmt.Sprintf("%s\n\n%s", head, menu) //Inserted 2 new lines
-		height := len(headLines) + len(menuLines) + ms.paddingH + 2
+		headLines := padStr(strings.Split(frame.Header, "\n"), linesH - ms.paddingW)
+		menuLines := padStr(strings.Split(frame.Menu, "\n"), linesH - ms.paddingW)
+		footLines := padStr(strings.Split(frame.Footer, "\n"), linesH - ms.paddingW)
 
-		if height < ms.Menu.Engine.LinesV {
-			if height + len(footLines) + 2 < ms.Menu.Engine.LinesV {
-				height += len(footLines) + 2
-				pad := int(math.Floor(float64(ms.Menu.Engine.LinesV - height))) + 1
-				halfPad := int(pad/2)
-				for i := 0; i < halfPad; i++ {
-					text += "\n"
-				}
-				text += foot
-				for i := 0; i < halfPad; i++ {
-					text += "\n"
-				}
-			}
+		headHeight := len(headLines)
+		menuHeight := len(menuLines)
+		footHeight := len(footLines)
+
+		margin := 2
+		usedHeight := margin + headHeight + margin + menuHeight
+		remaining := linesV - usedHeight - margin - footHeight
+
+		text := "\n\n"
+		text += strings.Join(headLines, "\n")
+		text += "\n\n"
+		text += strings.Join(menuLines, "\n")
+
+		for i := 0; i < remaining; i++ {
+			text += "\n"
 		}
+		text += strings.Join(footLines, "\n")
 
 		ms.Terminal.Printf(text)
 	}
+
 	ms.Terminal.Refresh()
 }
+
 
 func (ms *MenuScreen_Ncurses) GetFrame() *menuify.MenuFrame {
 	return ms.CachedFrame
