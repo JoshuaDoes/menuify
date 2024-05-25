@@ -70,7 +70,7 @@ func NewMenuScreenNcurses(m *menuify.Menu) *MenuScreen_Ncurses {
 func (ms *MenuScreen_Ncurses) Render(frame *menuify.MenuFrame) {
 	ms.CachedFrame = frame
 	ms.Clear()
-	if frame != nil && frame.Empty() {
+	if frame != nil && !frame.Empty() {
 		headLines := padStr(strings.Split(frame.Header, "\n"), ms.Menu.Engine.LinesH - ms.paddingW)
 		head := strings.Join(headLines, "\n")
 		menuLines := padStr(strings.Split(frame.Menu, "\n"), ms.Menu.Engine.LinesH - ms.paddingW)
