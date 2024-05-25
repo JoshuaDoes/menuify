@@ -36,5 +36,10 @@ func ScreenPrintf(ms MenuScreen, format string, args ...interface{}) {
 }
 
 func ScreenPrintln(ms MenuScreen, line string) {
-	ScreenPrintf(ms, "%s\n", line)
+	frame := ms.GetFrame()
+	if frame == nil {
+		frame = &MenuFrame{}
+	}
+	frame.Menu += line + "\n"
+	ms.Render(frame)
 }
